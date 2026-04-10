@@ -26,17 +26,17 @@
   <div class="mean_ul">
     <div class="mean_li" onclick="sss('u')">用户管理</div>
     <div class="user_list" id="user_list">
-      <div class="mm"><a href="/x-test/BSServlet?key=dashboard">仪表盘</a></div>
-      <div class="mm"><a href="/x-test/BSServlet?key=alluser">全部用户</a></div>
+      <div class="mm"><a href="<%=request.getContextPath()%>/BSServlet?key=dashboard">仪表盘</a></div>
+      <div class="mm"><a href="<%=request.getContextPath()%>/BSServlet?key=alluser">全部用户</a></div>
       <div class="mm"><a href="BSindex2.jsp">添加用户</a></div>
     </div>
     <div class="mean_li" onclick="sss('f')">商品管理</div>
     <div class="fruit_list" id="fruit_list">
-      <div class="mm"><a href="/x-test/BSServlet?key=allfruit">库存水果</a></div>
-      <div class="mm"><a href="/x-test/BSServlet?key=hotfruit">热卖水果</a></div>
+      <div class="mm"><a href="<%=request.getContextPath()%>/BSServlet?key=allfruit">库存水果</a></div>
+      <div class="mm"><a href="<%=request.getContextPath()%>/BSServlet?key=hotfruit">热卖水果</a></div>
       <div class="mm"><a href="BSindex5.jsp">水果入库</a></div>
-      <div class="mm"><a href="/x-test/BSServlet?key=allshop">购物记录</a></div>
-      <div class="mm"><a href="/x-test/BSServlet?key=allorder">订单管理</a></div>
+      <div class="mm"><a href="<%=request.getContextPath()%>/BSServlet?key=allshop">购物记录</a></div>
+      <div class="mm"><a href="<%=request.getContextPath()%>/BSServlet?key=allorder">订单管理</a></div>
     </div>
   </div>
 </div>
@@ -75,7 +75,7 @@
                 "<li class=\"i\">&nbsp;</li>" +
                 "<li>" + (record.isStar() ? "是" : "否") + "</li>" +
                 "<li class=\"i\">&nbsp;</li>" +
-                "<li><a href=\"/x-test/BSServlet?key=delshop&uid=" + record.getUid() + "&fid=" + record.getFid() + "\">删除</a></li>" +
+                "<li><a href=\"" + request.getContextPath() + "/BSServlet?key=delshop&uid=" + record.getUid() + "&fid=" + record.getFid() + "\">删除</a></li>" +
                 "</ul></div>");
       }
     %>

@@ -264,6 +264,9 @@ public class BSServlet extends HttpServlet {
         if(createdUser!=null)
         {
             doAlluser(req,resp);
+        } else {
+            req.setAttribute("error", "新增用户失败，请检查邮箱/手机号是否重复");
+            req.getRequestDispatcher("BSindex2.jsp").forward(req, resp);
         }
 
 

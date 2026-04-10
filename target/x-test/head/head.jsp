@@ -57,7 +57,7 @@
     <div class="con">
 
       <div class="logo">
-        <a href="index.jsp">
+        <a href="<%=request.getContextPath()%>/index.jsp">
           <img src="head/imgs/fdaylogo.png" alt="天天果园-水果网购首选品牌，水果，我们只挑有来头的！"  />
         </a>
       </div>
