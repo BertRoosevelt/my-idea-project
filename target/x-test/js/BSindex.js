@@ -25,7 +25,7 @@ function sss(t)
 
 function ox(s)
 {
-	for(var i=0;i<8;i++)
+	for(var i=0;i<9;i++)
 	{
 		var t="x"+i;
 		

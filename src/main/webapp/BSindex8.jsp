@@ -1,12 +1,17 @@
+<%@ page import="com.fruitDayDB.vo.Order" %>
+<%@ page import="com.fruitDayDB.vo.OrderItem" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.fruitDayDB.vo.ShopRecord" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   Boolean isAdmin = (Boolean) session.getAttribute("admin");
   if (isAdmin == null || !isAdmin) {
     response.sendRedirect("login.jsp");
     return;
+  }
+  List<Order> orders = new ArrayList<Order>();
+  if (request.getAttribute("orders") != null) {
+    orders = (List<Order>) request.getAttribute("orders");
   }
 %>
 <!DOCTYPE html>
@@ -41,45 +46,35 @@
   </div>
 </div>
 
-<div class="gong" id="x7">
-  <div class="con">
-    <div class="tit">
-      <ul>
-        <li>用户ID</li>
-        <li class="i">&nbsp;</li>
-        <li>商品ID</li>
-        <li class="i">&nbsp;</li>
-        <li>购物车</li>
-        <li class="i">&nbsp;</li>
-        <li>收藏</li>
-        <li class="i">&nbsp;</li>
-        <li>操作</li>
-      </ul>
-    </div>
-
+<div class="gong" id="x8">
+  <div class="con" style="height:auto;">
     <%
-      List<ShopRecord> records = new ArrayList<ShopRecord>();
-      if(request.getAttribute("shopRecords") != null) {
-        records = (List<ShopRecord>) request.getAttribute("shopRecords");
-      }
       if (request.getAttribute("error") != null) {
         out.print("<div style='color:#cc3300;margin-top:20px;'>" + request.getAttribute("error") + "</div>");
       }
-      for(ShopRecord record : records) {
-        out.print("<div class=\"info\"><ul>" +
-                "<li>" + record.getUid() + "</li>" +
-                "<li class=\"i\">&nbsp;</li>" +
-                "<li>" + record.getFid() + "</li>" +
-                "<li class=\"i\">&nbsp;</li>" +
-                "<li>" + (record.isCart() ? "是" : "否") + "</li>" +
-                "<li class=\"i\">&nbsp;</li>" +
-                "<li>" + (record.isStar() ? "是" : "否") + "</li>" +
-                "<li class=\"i\">&nbsp;</li>" +
-                "<li><a href=\"/x-test/BSServlet?key=delshop&uid=" + record.getUid() + "&fid=" + record.getFid() + "\">删除</a></li>" +
-                "</ul></div>");
+    %>
+    <%
+      for (Order order : orders) {
+        out.print("<div style='margin:20px 0;padding:12px;border:1px solid #ddd;'>");
+        out.print("<div>订单号：" + order.getId() + " | 用户ID：" + order.getUid() + " | 用户名：" + order.getUname() + " | 状态：" + order.getStatus() + " | 金额：￥" + order.getTotalAmount() + " | 时间：" + order.getCreatedAt() + "</div>");
+        out.print("<ul style='margin:10px 0 0 20px;'>");
+        for (OrderItem item : order.getItems()) {
+          out.print("<li>商品ID:" + item.getFid() + " " + item.getFname() + " x " + item.getQuantity() + "，单价：￥" + item.getPrice() + "，小计：￥" + item.getSubtotal() + "</li>");
+        }
+        out.print("</ul>");
+        out.print("<div style='margin-top:8px;'>");
+        if ("待发货".equals(order.getStatus())) {
+          out.print("<a href='/x-test/BSServlet?key=shiporder&orderId=" + order.getId() + "'>发货</a>");
+        }
+        if (!"已完成".equals(order.getStatus()) && !"已取消".equals(order.getStatus())) {
+          out.print("<a style='margin-left:10px;' href='/x-test/BSServlet?key=cancelorder&orderId=" + order.getId() + "'>取消订单</a>");
+        }
+        out.print("</div>");
+        out.print("</div>");
       }
     %>
   </div>
 </div>
+
 </body>
 </html>

@@ -1,9 +1,11 @@
 package com.fruitDayDB.servlet;
 
 import com.fruitDayDB.service.FruitService;
+import com.fruitDayDB.service.OrderService;
 import com.fruitDayDB.service.ShopService;
 import com.fruitDayDB.service.UserService;
 import com.fruitDayDB.vo.Fruit;
+import com.fruitDayDB.vo.Order;
 import com.fruitDayDB.vo.ShopRecord;
 import com.fruitDayDB.vo.User;
 
@@ -69,6 +71,12 @@ public class BSServlet extends HttpServlet {
             doAllshop(req, resp);
         else if("delshop".equals(key))
             doDelshop(req, resp);
+        else if("allorder".equals(key))
+            doAllorder(req, resp);
+        else if("shiporder".equals(key))
+            doShiporder(req, resp);
+        else if("cancelorder".equals(key))
+            doCancelorder(req, resp);
         else
             doDashboard(req, resp);
 
@@ -80,6 +88,7 @@ public class BSServlet extends HttpServlet {
         req.setAttribute("fruitCount", FruitService.all().size());
         req.setAttribute("cartCount", ShopService.cartCount(records));
         req.setAttribute("starCount", ShopService.starCount(records));
+        req.setAttribute("orderCount", OrderService.allOrders().size());
         req.getRequestDispatcher("BSindex.jsp").forward(req, resp);
     }
 
@@ -98,6 +107,28 @@ public class BSServlet extends HttpServlet {
             req.setAttribute("error", "删除参数不合法");
         }
         doAllshop(req, resp);
+    }
+
+    protected void doAllorder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Order> orders = OrderService.allOrders();
+        req.setAttribute("orders", orders);
+        req.getRequestDispatcher("BSindex8.jsp").forward(req, resp);
+    }
+
+    protected void doShiporder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int orderId = parseInt(req.getParameter("orderId"), 0);
+        if (!OrderService.adminShip(orderId)) {
+            req.setAttribute("error", "发货失败，订单状态不允许发货");
+        }
+        doAllorder(req, resp);
+    }
+
+    protected void doCancelorder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int orderId = parseInt(req.getParameter("orderId"), 0);
+        if (!OrderService.adminCancel(orderId)) {
+            req.setAttribute("error", "取消失败，订单状态不允许取消");
+        }
+        doAllorder(req, resp);
     }
 
     protected void doUpfruit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -163,7 +194,7 @@ public class BSServlet extends HttpServlet {
     protected void doAddfruit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String fname=req.getParameter("fname");
         String spec=req.getParameter("spec");
-       double up= parseDouble(req.getParameter("up"), 0);
+        double up= parseDouble(req.getParameter("up"), 0);
         String t1=req.getParameter("t1");
         String t2=req.getParameter("t2");
         int inum= parseInt(req.getParameter("inum"), 0);
@@ -178,7 +209,7 @@ public class BSServlet extends HttpServlet {
         boolean boo=FruitService.add(fruit);
 
         if(boo)
-           doAllfruit(req,resp);
+            doAllfruit(req,resp);
         else
             req.getRequestDispatcher("BSindex5.jsp").forward(req, resp);
     }
@@ -229,8 +260,8 @@ public class BSServlet extends HttpServlet {
 
         User user=new User(email,phone,pwd,uname);
 
-        boolean boo=UserService.upUser(user);
-        if(boo)
+        User addUser=UserService.add(user);
+        if(addUser!=null)
         {
             doAlluser(req,resp);
         }
@@ -240,23 +271,20 @@ public class BSServlet extends HttpServlet {
 
     protected void doUpuser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uname=req.getParameter("name2");
-        if (uname == null) {
-            uname = req.getParameter("name1");
-        }
         String email=req.getParameter("email2");
         String phone=req.getParameter("phone2");
         String pwd=req.getParameter("pwd2");
         int id=parseInt(req.getParameter("id"), 0);
-        if (id <= 0 || email == null || phone == null || pwd == null) {
+        if (id <= 0 || email == null || phone == null || pwd == null || uname == null) {
             doAlluser(req, resp);
             return;
         }
 
         User user=new User(id,email,phone,pwd,uname);
 
-        User boo=UserService.add(user);
+        boolean boo=UserService.upUser(user);
 
-        if(boo!=null)
+        if(boo)
         {
             doAlluser(req,resp);
         }

@@ -46,6 +46,7 @@
       <div class="mm"><a href="/x-test/BSServlet?key=hotfruit">热卖水果</a></div>
       <div class="mm"><a href="BSindex5.jsp">水果入库</a></div>
       <div class="mm"><a href="/x-test/BSServlet?key=allshop">购物记录</a></div>
+      <div class="mm"><a href="/x-test/BSServlet?key=allorder">订单管理</a></div>
     </div>
   </div>
 </div>
@@ -58,6 +59,7 @@
       <p>商品总数：<%=request.getAttribute("fruitCount") == null ? "-" : request.getAttribute("fruitCount")%></p>
       <p>购物车记录：<%=request.getAttribute("cartCount") == null ? "-" : request.getAttribute("cartCount")%></p>
       <p>收藏记录：<%=request.getAttribute("starCount") == null ? "-" : request.getAttribute("starCount")%></p>
+      <p>订单总数：<%=request.getAttribute("orderCount") == null ? "-" : request.getAttribute("orderCount")%></p>
     </div>
   </div>
 </div>

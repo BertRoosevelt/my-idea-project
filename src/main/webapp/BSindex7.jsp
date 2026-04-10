@@ -36,6 +36,7 @@
       <div class="mm"><a href="/x-test/BSServlet?key=hotfruit">热卖水果</a></div>
       <div class="mm"><a href="BSindex5.jsp">水果入库</a></div>
       <div class="mm"><a href="/x-test/BSServlet?key=allshop">购物记录</a></div>
+      <div class="mm"><a href="/x-test/BSServlet?key=allorder">订单管理</a></div>
     </div>
   </div>
 </div>
