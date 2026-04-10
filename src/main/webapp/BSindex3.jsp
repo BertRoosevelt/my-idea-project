@@ -66,7 +66,7 @@
       <form action=/x-test/BSServlet?key=upuser&id=<%=user3.getId()%> method="post">
         <div class="add">
           <span class="add_tit">用户名 ：</span>
-          <span class="add_text"><input type="text" name="name2" id="name2" value="<%=user3.getUname()%>" /></span>
+          <span class="add_text"><input type="text" name="uname2" id="uname2" value="<%=user3.getUname()%>" /></span>
         </div>
 
         <div class="add">

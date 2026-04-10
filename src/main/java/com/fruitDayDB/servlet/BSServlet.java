@@ -260,8 +260,8 @@ public class BSServlet extends HttpServlet {
 
         User user=new User(email,phone,pwd,uname);
 
-        User addUser=UserService.add(user);
-        if(addUser!=null)
+        User createdUser=UserService.add(user);
+        if(createdUser!=null)
         {
             doAlluser(req,resp);
         }
@@ -270,7 +270,7 @@ public class BSServlet extends HttpServlet {
     }
 
     protected void doUpuser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String uname=req.getParameter("name2");
+        String uname=req.getParameter("uname2");
         String email=req.getParameter("email2");
         String phone=req.getParameter("phone2");
         String pwd=req.getParameter("pwd2");
