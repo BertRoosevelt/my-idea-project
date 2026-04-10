@@ -98,6 +98,11 @@
         <div class="add_sublmit">
           <input type="submit" value="保存"/>
         </div>
+        <%
+          if (request.getAttribute("error") != null) {
+            out.print("<div style='color:#cc3300;margin-left:200px;'>" + request.getAttribute("error") + "</div>");
+          }
+        %>
       </form>
     </div>
   </div>

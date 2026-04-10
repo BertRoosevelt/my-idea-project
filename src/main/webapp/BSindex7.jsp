@@ -61,6 +61,9 @@
       if(request.getAttribute("shopRecords") != null) {
         records = (List<ShopRecord>) request.getAttribute("shopRecords");
       }
+      if (request.getAttribute("error") != null) {
+        out.print("<div style='color:#cc3300;margin-top:20px;'>" + request.getAttribute("error") + "</div>");
+      }
       for(ShopRecord record : records) {
         out.print("<div class=\"info\"><ul>" +
                 "<li>" + record.getUid() + "</li>" +

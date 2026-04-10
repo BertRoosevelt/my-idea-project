@@ -94,6 +94,8 @@ public class BSServlet extends HttpServlet {
         int fid = parseInt(req.getParameter("fid"), 0);
         if (uid > 0 && fid > 0) {
             ShopService.del(uid, fid);
+        } else {
+            req.setAttribute("error", "删除参数不合法");
         }
         doAllshop(req, resp);
     }
@@ -110,6 +112,11 @@ public class BSServlet extends HttpServlet {
         String t1=req.getParameter("t1");
         String t2=req.getParameter("t2");
         int inum= parseInt(req.getParameter("inum"), 0);
+        if (up <= 0 || inum < 0) {
+            req.setAttribute("error", "商品参数不合法");
+            doFindfruit(req, resp);
+            return;
+        }
         Fruit fruit=new Fruit(fid,fname,spec,up,t1,t2,inum);
 
         FruitService.up(fruit);
@@ -161,7 +168,7 @@ public class BSServlet extends HttpServlet {
         String t2=req.getParameter("t2");
         int inum= parseInt(req.getParameter("inum"), 0);
         int fid= parseInt(req.getParameter("fid"), 0);
-        if (fid <= 0 || fname == null || fname.trim().isEmpty()) {
+        if (fid <= 0 || fname == null || fname.trim().isEmpty() || up <= 0 || inum < 0) {
             req.setAttribute("error", "参数不合法");
             req.getRequestDispatcher("BSindex5.jsp").forward(req, resp);
             return;
