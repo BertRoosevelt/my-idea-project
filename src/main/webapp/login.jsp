@@ -34,7 +34,7 @@
         <span class="h01">会员登陆</span>
         <div class="xhr"></div>
       </div>
-      <form action=<%=request.getContextPath()%>/UserServlet?key = login method = "post">
+      <form action="<%=request.getContextPath()%>/UserServlet?key=login" method="post">
       <div class="text_box">
         <div class="main"><div class="name">邮箱/手机：</div>
           <input type="text" name="str" id="str" value="" />
@@ -42,9 +42,20 @@
         <div class="main"><div class="name">密码：</div>
           <input type="password" name="pwd" id="pwd" value="" />
         </div>
+        <div class="main"><div class="name">登录身份：</div>
+          <select name="loginType" id="loginType" style="height: 34px;width: 210px;">
+            <option value="user">普通用户</option>
+            <option value="admin">管理员</option>
+          </select>
+        </div>
         <div class="xbutton">
           <input type="submit" name="login" id="login" value="登陆" />
         </div>
+        <%
+          if (request.getAttribute("error") != null) {
+            out.print("<div style='color:#cc3300;margin-top:10px;'>" + request.getAttribute("error") + "</div>");
+          }
+        %>
         <div class="fpwd">
           <a href="">忘记密码 >></a>
         </div>

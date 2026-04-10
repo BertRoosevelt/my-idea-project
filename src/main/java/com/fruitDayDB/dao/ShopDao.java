@@ -1,7 +1,7 @@
 package com.fruitDayDB.dao;
 
 import com.fruitDayDB.vo.Cart;
-import com.fruitDayDB.vo.Fruit;
+import com.fruitDayDB.vo.ShopRecord;
 
 import java.util.List;
 
@@ -23,4 +23,7 @@ public interface ShopDao {
 
     /*修改*/
     public int up(int id,Cart cart);
+
+    /*后台查看全部购物/收藏记录*/
+    public List<ShopRecord> findAllRecords();
 }

@@ -34,7 +34,7 @@
         <span class="h02">赠时令鲜果1份</span>
         <div class="xhr"></div>
       </div>
-      <form action=<%=request.getContextPath()%>/UserServlet?key=add method="post" id="regForm">
+      <form action="<%=request.getContextPath()%>/UserServlet?key=add" method="post" id="regForm">
               <div class="text_box">
                   <div class="main"><div class="name">邮箱：</div>
                   <input type="text" name="email" id="email" value="" onblur="isEmail()"/>
@@ -52,11 +52,16 @@
                   <input type="password" name="pwd2" id="pwd2" value="" onblur="isPwd2()"/>
                   <div id="isPwd2" class="iss"></div>
                   </div>
-                  <div class="xbutton">
-                  <input type="button" name="reg" id="reg" value="注册" onclick="isReg()"/>
-                  </div>
-              </div>
-      	</form>
+                   <div class="xbutton">
+                   <input type="button" name="reg" id="reg" value="注册" onclick="isReg()"/>
+                   </div>
+                  <%
+                    if (request.getAttribute("error") != null) {
+                      out.print("<div style='color:#cc3300;margin-top:10px;'>" + request.getAttribute("error") + "</div>");
+                    }
+                  %>
+               </div>
+       	</form>
     </div>
 
     <div class="jmp">

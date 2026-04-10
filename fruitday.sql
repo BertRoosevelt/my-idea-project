@@ -89,6 +89,36 @@ INSERT INTO `shop` VALUES ('1', '11', '0', '1');
 INSERT INTO `shop` VALUES ('1', '14', '1', '1');
 
 -- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `total_amount` double NOT NULL DEFAULT '0',
+  `status` varchar(32) NOT NULL DEFAULT '待支付',
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_orders_uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for order_item
+-- ----------------------------
+DROP TABLE IF EXISTS `order_item`;
+CREATE TABLE `order_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
+  `price` double NOT NULL DEFAULT '0',
+  `quantity` int(11) NOT NULL DEFAULT '1',
+  `subtotal` double NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_order_item_order` (`order_id`),
+  KEY `idx_order_item_fid` (`fid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
@@ -105,3 +135,17 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', 'youwillsee2018@qq.com', '15754326763', 'suhong1', 'youwillsee2018@qq.com');
+
+-- ----------------------------
+-- Table structure for root
+-- ----------------------------
+DROP TABLE IF EXISTS `root`;
+CREATE TABLE `root` (
+  `uid` int(11) NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of root
+-- ----------------------------
+INSERT INTO `root` VALUES ('1');

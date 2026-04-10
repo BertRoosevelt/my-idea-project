@@ -9,6 +9,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  Boolean isAdmin = (Boolean) session.getAttribute("admin");
+  if (isAdmin == null || !isAdmin) {
+    response.sendRedirect("login.jsp");
+    return;
+  }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +36,7 @@
   <div class="mean_ul">
     <div class="mean_li" onclick="sss('u')">用户管理</div>
     <div class="user_list" id="user_list">
+      <div class="mm"><a href="/x-test/BSServlet?key=dashboard">仪表盘</a></div>
       <div class="mm"><a href="/x-test/BSServlet?key=alluser">全部用户</a></div>
       <div class="mm"><a href="BSindex2.jsp">添加用户</a></div>
     </div>
@@ -37,6 +45,8 @@
       <div class="mm"><a href="/x-test/BSServlet?key=allfruit">库存水果</a></div>
       <div class="mm"><a href="/x-test/BSServlet?key=hotfruit">热卖水果</a></div>
       <div class="mm"><a href="BSindex5.jsp">水果入库</a></div>
+      <div class="mm"><a href="/x-test/BSServlet?key=allshop">购物记录</a></div>
+      <div class="mm"><a href="/x-test/BSServlet?key=allorder">订单管理</a></div>
     </div>
   </div>
 
@@ -69,6 +79,11 @@
         <div class="add_sublmit">
           <input type="submit" value="添加"/>
         </div>
+        <%
+          if (request.getAttribute("error") != null) {
+            out.print("<div style='color:#cc3300;margin-left:200px;'>" + request.getAttribute("error") + "</div>");
+          }
+        %>
       </form>
     </div>
   </div>
@@ -78,4 +93,3 @@
 
 </body>
 </html>
-

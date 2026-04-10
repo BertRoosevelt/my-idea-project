@@ -36,13 +36,15 @@
                   "        </div>");
         else {
           out.print("      <div class=\"head_right\" >\n" +
-                  "        <div class=\"username\"><a href=\"#\">"+user.getUname()+"</a></div>\n" +
+                  "        <div class=\"username\"><a href=\""+request.getContextPath()+"/user_center.jsp\">"+user.getUname()+"</a></div>\n" +
                   "        <div class=\"star\">\n" +
                   "          <div class=\"star_img\">\n" +
                   "          </div>\n" +
                   "          <div class=\"toStar\"><a href=\""+request.getContextPath()+"/ShopServlet?key=show&id="+user.getId()+"&boob=star\">我的关注</a>\n" +
                   "          </div>\n" +
                   "        </div>\n" +
+                  "        <div class=\"username\"><a href=\""+request.getContextPath()+"/OrderServlet?key=my\">我的订单</a></div>\n" +
+                  "        <div class=\"username\"><a href=\""+request.getContextPath()+"/UserServlet?key=logout\">退出登录</a></div>\n" +
                   "      </div>");
         }
       %>
@@ -55,7 +57,7 @@
     <div class="con">
 
       <div class="logo">
-        <a href="BSindex.jsp">
+        <a href="<%=request.getContextPath()%>/index.jsp">
           <img src="head/imgs/fdaylogo.png" alt="天天果园-水果网购首选品牌，水果，我们只挑有来头的！"  />
         </a>
       </div>

@@ -4,6 +4,7 @@ import com.fruitDayDB.dao.ShopDao;
 import com.fruitDayDB.dao.ShopDaoImpl;
 import com.fruitDayDB.vo.Cart;
 import com.fruitDayDB.vo.Fruit;
+import com.fruitDayDB.vo.ShopRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,5 +84,30 @@ public class ShopService {
         else
             return false;
 
+    }
+
+    public static List<ShopRecord> allRecords() {
+        ShopDao shopDao = new ShopDaoImpl();
+        return shopDao.findAllRecords();
+    }
+
+    public static int cartCount(List<ShopRecord> records) {
+        int count = 0;
+        for (ShopRecord record : records) {
+            if (record.isCart()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static int starCount(List<ShopRecord> records) {
+        int count = 0;
+        for (ShopRecord record : records) {
+            if (record.isStar()) {
+                count++;
+            }
+        }
+        return count;
     }
 }

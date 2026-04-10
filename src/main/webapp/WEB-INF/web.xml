@@ -24,6 +24,10 @@
         <servlet-name>bsServlet</servlet-name>
         <servlet-class>com.fruitDayDB.servlet.BSServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>orderServlet</servlet-name>
+        <servlet-class>com.fruitDayDB.servlet.OrderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>fruitServlet</servlet-name>
         <url-pattern>/FruitServlet</url-pattern>
@@ -43,5 +47,9 @@
     <servlet-mapping>
         <servlet-name>bsServlet</servlet-name>
         <url-pattern>/BSServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderServlet</servlet-name>
+        <url-pattern>/OrderServlet</url-pattern>
     </servlet-mapping>
 </web-app>
