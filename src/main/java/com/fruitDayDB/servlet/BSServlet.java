@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +29,10 @@ public class BSServlet extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("utf-8");
         String key=req.getParameter("key");
+        if (key == null) {
+            req.getRequestDispatcher("BSindex.jsp").forward(req, resp);
+            return;
+        }
 
         if("alluser".equals(key))
             doAlluser(req,resp);
@@ -126,13 +129,8 @@ public class BSServlet extends HttpServlet {
 
     protected void doAlluser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users= UserService.alluser();
-        System.out.println(users.toString());
-        if(users.size()>0||users!=null)
-        {
-            req.setAttribute("allusers",users);
-
-            req.getRequestDispatcher("BSindex1.jsp").forward(req, resp);
-        }
+        req.setAttribute("allusers",users);
+        req.getRequestDispatcher("BSindex1.jsp").forward(req, resp);
 
 
     }
@@ -158,9 +156,8 @@ public class BSServlet extends HttpServlet {
 
         User user=new User(email,phone,pwd,uname);
 
-        User boo=UserService.add(user);
-
-        if(boo!=null)
+        boolean boo=UserService.upUser(user);
+        if(boo)
         {
             doAlluser(req,resp);
         }

@@ -9,9 +9,6 @@ import java.util.List;
  * Created by soso.
  */
 public interface ShopDao {
-    /*创建用户的购物车表*/
-    public boolean newTable(int id);
-
     /*删除*/
     public int del(int id, int fid);
 

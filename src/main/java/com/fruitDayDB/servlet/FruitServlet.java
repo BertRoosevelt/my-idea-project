@@ -24,6 +24,11 @@ public class FruitServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String key=req.getParameter("key");
+        if (key == null) {
+            doHot(req, resp);
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            return;
+        }
 
         if(key.equals("info"))
             doInfo(req,resp);
@@ -33,28 +38,28 @@ public class FruitServlet extends HttpServlet {
 
     protected void doInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int fid=Integer.parseInt(req.getParameter("fid"));
+        int fid=parseInt(req.getParameter("fid"), 0);
+        if (fid <= 0) {
+            doHot(req, resp);
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            return;
+        }
 
         Fruit fruit= FruitService.info(fid);
 
         req.setAttribute("fruit", fruit);
 
-        if(!(Integer.parseInt(req.getParameter("id"))==0)) {
+        int id=parseInt(req.getParameter("id"), 0);
+        if(id!=0) {
 
-            int id=Integer.parseInt(req.getParameter("id"));
-
-            if(id!=0) {
-
-                List<Cart> carts = ShopService.showAll(id);
-
-                for (Cart cart : carts) {
-                    if (cart.getFid() == fid) {
-                        if(cart.isCart())
-                            req.setAttribute("tit1", "已加入购物车");
-                        if(cart.isStar())
-                            req.setAttribute("tit2", "已关注");
-                        break;
-                    }
+            List<Cart> carts = ShopService.showAll(id);
+            for (Cart cart : carts) {
+                if (cart.getFid() == fid) {
+                    if(cart.isCart())
+                        req.setAttribute("tit1", "已加入购物车");
+                    if(cart.isStar())
+                        req.setAttribute("tit2", "已关注");
+                    break;
                 }
             }
         }
@@ -71,6 +76,17 @@ public class FruitServlet extends HttpServlet {
 
         req.setAttribute("fruits", fruits);
 
+    }
+
+    private int parseInt(String value, int defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
 }

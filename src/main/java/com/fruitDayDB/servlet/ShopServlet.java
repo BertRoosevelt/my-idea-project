@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -21,6 +20,10 @@ public class ShopServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String key=req.getParameter("key");
+        if (key == null) {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            return;
+        }
 
         if(key.equals("del"))
             doDel(req,resp);
@@ -39,20 +42,22 @@ public class ShopServlet extends HttpServlet{
 
     protected void doDel(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Cart cart=new Cart();
-        int id=Integer.parseInt(req.getParameter("uid"));
-        cart.setFid(Integer.parseInt(req.getParameter("fid")));
+        int id=parseInt(req.getParameter("uid"), 0);
+        cart.setFid(parseInt(req.getParameter("fid"), 0));
         String str = req.getParameter("str");
         if(id!=0) {
             Cart serCart=ShopService.find(id, cart.getFid());
-            System.out.println(serCart.toString());
-            if (str.equals("cart")) {
+            if (serCart == null) {
+                req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&boob="+("cart".equals(str) ? "cart" : "star")).forward(req, resp);
+                return;
+            }
+            if ("cart".equals(str)) {
                 cart.setIsCart(false);
                 cart.setIsStar(serCart.isStar());
             } else {
                 cart.setIsStar(false);
                 cart.setIsCart(serCart.isCart());
             }
-            System.out.println(serCart.toString());
             if(cart.isCart()||cart.isStar())
             {
                 ShopService.up(id, cart);
@@ -62,7 +67,7 @@ public class ShopServlet extends HttpServlet{
                 ShopService.del(id,cart.getFid());
             }
         }
-        if (str.equals("cart")) {
+        if ("cart".equals(str)) {
             req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&boob=cart").forward(req, resp);
         } else {
             req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&boob=star").forward(req, resp);
@@ -72,17 +77,19 @@ public class ShopServlet extends HttpServlet{
 
 
     protected void doShow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id=Integer.parseInt(req.getParameter("id"));
+        int id=parseInt(req.getParameter("id"), 0);
 
 
         String boob=req.getParameter("boob");
 
-        Boolean boo=null;
+        Boolean boo;
 
-        if(boob.equals("cart"))
+        if("cart".equals(boob))
             boo=true;
-        else if(boob.equals("star"))
+        else if("star".equals(boob))
             boo=false;
+        else
+            boo=true;
 
         if(id!=0) {
             List<Fruit> fruits = ShopService.show(id, boo);
@@ -103,17 +110,16 @@ public class ShopServlet extends HttpServlet{
 
     protected void doAdd(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Cart cart=new Cart();
-        Cart serCart=null;
-        int id=Integer.parseInt(req.getParameter("id"));
+        int id=parseInt(req.getParameter("id"), 0);
 
-        cart.setFid(Integer.parseInt(req.getParameter("fid")));
+        cart.setFid(parseInt(req.getParameter("fid"), 0));
 
         if(id!=0) {
             String str = req.getParameter("str");
-            serCart=ShopService.find(id, cart.getFid());
-            if(cart.getFid()!=serCart.getFid())
+            Cart serCart=ShopService.find(id, cart.getFid());
+            if(serCart == null)
             {
-                if (str.equals("cart")) {
+                if ("cart".equals(str)) {
                     cart.setIsStar(false);
                     cart.setIsCart(true);
                 } else {
@@ -125,7 +131,7 @@ public class ShopServlet extends HttpServlet{
             }
             else
             {
-                if(str.equals("cart"))
+                if("cart".equals(str))
                 {
                     cart.setIsCart(true);
                     cart.setIsStar(serCart.isStar());
@@ -155,5 +161,16 @@ public class ShopServlet extends HttpServlet{
             num = fruits.size();
         }
         req.setAttribute("num",num);
+    }
+
+    private int parseInt(String value, int defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 }

@@ -30,7 +30,6 @@ public class ShopService {
     }
     public static List<Fruit> show(int id,boolean boo)
     {
-                ;
         List<Cart> carts=ShopService.showAll(id);
 
         List<Fruit> fruits=new ArrayList<Fruit>();
@@ -66,8 +65,7 @@ public class ShopService {
     public static void add(int id,Cart cart)
     {
         ShopDao shopDao=new ShopDaoImpl();
-        int num=shopDao.add(id, cart);
-        System.out.println("num:"+num);
+        shopDao.add(id, cart);
     }
 
     public static Cart find(int id,int fid)

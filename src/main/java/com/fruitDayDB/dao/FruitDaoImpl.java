@@ -134,11 +134,12 @@ public class FruitDaoImpl implements FruitDao {
     public int del(int fid) {
         Connection conn = null;
         PreparedStatement ps = null;
-        String sql = "DELETE FROM fruits WHERE fid="+fid;
+        String sql = "DELETE FROM fruits WHERE fid=?";
         int num=0;
         try{
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(sql);
+            ps.setInt(1, fid);
             num=ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -164,7 +165,7 @@ public class FruitDaoImpl implements FruitDao {
             ps.setString(5, fruit.getT2());
             ps.setInt(6, fruit.getInum());
             ps.setInt(7, fruit.getFid());
-            ps.executeUpdate();
+            num = ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
         }finally{

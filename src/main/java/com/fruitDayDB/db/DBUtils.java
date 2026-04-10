@@ -2,7 +2,6 @@ package com.fruitDayDB.db;
 
 
 import java.sql.*;
-import java.util.ResourceBundle;
 
 /**
  * Created by soso.
@@ -21,11 +20,10 @@ public class DBUtils {
 
     //使用静态块加载驱动程序
     static{
-        URL = "jdbc:mysql://127.0.0.1:3306/fruitday?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8";
-        USERNAME = "root";
-        PASSWORD = "liujingbo619";
-        //DRIVER = "com.mysql.jdbc.Driver";
-        DRIVER = "com.mysql.cj.jdbc.Driver";
+        URL = readConfig("DB_URL", "db.url", "jdbc:mysql://127.0.0.1:3306/fruitday?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8");
+        USERNAME = readConfig("DB_USERNAME", "db.username", "root");
+        PASSWORD = readConfig("DB_PASSWORD", "db.password", "");
+        DRIVER = readConfig("DB_DRIVER", "db.driver", "com.mysql.cj.jdbc.Driver");
         try {
             Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
@@ -34,16 +32,24 @@ public class DBUtils {
     }
     //定义一个获取数据库连接的方法
     public static Connection getConnection(){
-        Connection conn = null;
         try {
-            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("获取连接失败");
+            return null;
         }
-        finally {
-            return conn;
+    }
+
+    private static String readConfig(String envKey, String propertyKey, String defaultValue) {
+        String value = System.getenv(envKey);
+        if (value == null || value.trim().isEmpty()) {
+            value = System.getProperty(propertyKey);
         }
+        if (value == null || value.trim().isEmpty()) {
+            return defaultValue;
+        }
+        return value.trim();
     }
 
     /**

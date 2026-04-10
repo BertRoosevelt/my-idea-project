@@ -18,11 +18,12 @@ public class UserDaoImpl implements UserDao {
     public int del(User u) {
         Connection conn = null;
         PreparedStatement ps = null;
-        String sql = "DELETE  FROM user WHERE id="+u.getId();
+        String sql = "DELETE FROM user WHERE id=?";
         int num=0;
         try{
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(sql);
+            ps.setInt(1, u.getId());
             num=ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -103,7 +104,7 @@ public class UserDaoImpl implements UserDao {
             ps = conn.prepareStatement(sql);
             ps.setString(1,u.getPwd());
             ps.setInt(2, u.getId());
-            ps.executeUpdate();
+            num = ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
@@ -129,7 +130,7 @@ public class UserDaoImpl implements UserDao {
             ps.setString(3,u.getUname());
             ps.setString(4,u.getPwd());
             ps.setInt(5, u.getId());
-            ps.executeUpdate();
+            num = ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
