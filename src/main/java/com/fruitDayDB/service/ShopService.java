@@ -91,9 +91,9 @@ public class ShopService {
         return shopDao.findAllRecords();
     }
 
-    public static int cartCount() {
+    public static int cartCount(List<ShopRecord> records) {
         int count = 0;
-        for (ShopRecord record : allRecords()) {
+        for (ShopRecord record : records) {
             if (record.isCart()) {
                 count++;
             }
@@ -101,9 +101,9 @@ public class ShopService {
         return count;
     }
 
-    public static int starCount() {
+    public static int starCount(List<ShopRecord> records) {
         int count = 0;
-        for (ShopRecord record : allRecords()) {
+        for (ShopRecord record : records) {
             if (record.isStar()) {
                 count++;
             }

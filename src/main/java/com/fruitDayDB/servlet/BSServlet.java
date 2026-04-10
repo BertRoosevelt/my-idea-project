@@ -75,10 +75,11 @@ public class BSServlet extends HttpServlet {
     }
 
     protected void doDashboard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<ShopRecord> records = ShopService.allRecords();
         req.setAttribute("userCount", UserService.alluser().size());
         req.setAttribute("fruitCount", FruitService.all().size());
-        req.setAttribute("cartCount", ShopService.cartCount());
-        req.setAttribute("starCount", ShopService.starCount());
+        req.setAttribute("cartCount", ShopService.cartCount(records));
+        req.setAttribute("starCount", ShopService.starCount(records));
         req.getRequestDispatcher("BSindex.jsp").forward(req, resp);
     }
 

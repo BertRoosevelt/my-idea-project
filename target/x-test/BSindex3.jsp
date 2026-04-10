@@ -9,6 +9,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  Boolean isAdmin = (Boolean) session.getAttribute("admin");
+  if (isAdmin == null || !isAdmin) {
+    response.sendRedirect("login.jsp");
+    return;
+  }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +39,7 @@
   <div class="mean_ul">
     <div class="mean_li" onclick="sss('u')">用户管理</div>
     <div class="user_list" id="user_list">
+      <div class="mm"><a href="/x-test/BSServlet?key=dashboard">仪表盘</a></div>
       <div class="mm"><a href="/x-test/BSServlet?key=alluser">全部用户</a></div>
       <div class="mm"><a href="BSindex2.jsp">添加用户</a></div>
     </div>
@@ -40,6 +48,7 @@
       <div class="mm"><a href="/x-test/BSServlet?key=allfruit">库存水果</a></div>
       <div class="mm"><a href="/x-test/BSServlet?key=hotfruit">热卖水果</a></div>
       <div class="mm"><a href="BSindex5.jsp">水果入库</a></div>
+      <div class="mm"><a href="/x-test/BSServlet?key=allshop">购物记录</a></div>
     </div>
   </div>
 </div>
@@ -56,22 +65,22 @@
       <form action=/x-test/BSServlet?key=upuser&id=<%=user3.getId()%> method="post">
         <div class="add">
           <span class="add_tit">用户名 ：</span>
-          <span class="add_text"><input type="text" name="name1" id="name2" value=<%=user3.getUname()%> /></span>
+          <span class="add_text"><input type="text" name="name2" id="name2" value="<%=user3.getUname()%>" /></span>
         </div>
 
         <div class="add">
           <span class="add_tit">邮箱 ：</span>
-          <span class="add_text"><input type="text" name="email2" id="email2" value=<%=user3.getEmail()%> /></span>
+          <span class="add_text"><input type="text" name="email2" id="email2" value="<%=user3.getEmail()%>" /></span>
         </div>
 
         <div class="add">
           <span class="add_tit">手机 ：</span>
-          <span class="add_text"><input type="text" name="phone2" id="phone2" value=<%=user3.getPhone()%> /></span>
+          <span class="add_text"><input type="text" name="phone2" id="phone2" value="<%=user3.getPhone()%>" /></span>
         </div>
 
         <div class="add">
           <span class="add_tit">密码 ：</span>
-          <span class="add_text"><input type="text" name="pwd2" id="pwd2" value=<%=user3.getPwd()%> /></span>
+          <span class="add_text"><input type="text" name="pwd2" id="pwd2" value="<%=user3.getPwd()%>" /></span>
         </div>
         <div class="add_sublmit">
           <input type="submit" value="保存"/>
@@ -86,4 +95,3 @@
 
 </body>
 </html>
-

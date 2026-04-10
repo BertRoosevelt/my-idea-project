@@ -3,6 +3,7 @@
 /home/runner/work/my-idea-project/my-idea-project/src/main/java/com/fruitDayDB/vo/User.java
 /home/runner/work/my-idea-project/my-idea-project/src/main/java/com/fruitDayDB/service/UserService.java
 /home/runner/work/my-idea-project/my-idea-project/src/main/java/com/fruitDayDB/db/DBUtils.java
+/home/runner/work/my-idea-project/my-idea-project/src/main/java/com/fruitDayDB/vo/ShopRecord.java
 /home/runner/work/my-idea-project/my-idea-project/src/main/java/com/fruitDayDB/service/FruitService.java
 /home/runner/work/my-idea-project/my-idea-project/src/main/java/com/fruitDayDB/dao/ShopDao.java
 /home/runner/work/my-idea-project/my-idea-project/src/main/java/com/fruitDayDB/dao/UserDao.java
