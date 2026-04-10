@@ -4,7 +4,6 @@ package com.fruitDayDB.servlet;
 import com.fruitDayDB.service.UserService;
 import com.fruitDayDB.vo.User;
 
-import javax.jws.WebService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,16 +19,20 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String key=req.getParameter("key");
+        if (key == null) {
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            return;
+        }
 
         if(key.equals("add"))
             doAdd(req,resp);
-        if(key.equals("login"))
+        else if(key.equals("login"))
             doLogin(req,resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        doPost(req, resp);
     }
 
 
@@ -46,7 +49,7 @@ public class UserServlet extends HttpServlet {
         {
             HttpSession session=req.getSession();
             session.setAttribute("user",user);
-            req.getRequestDispatcher(req.getContextPath()+"/index.jsp").forward(req, resp);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
         else
             req.getRequestDispatcher("/reg.jsp").forward(req, resp);
@@ -63,14 +66,16 @@ public class UserServlet extends HttpServlet {
 
         User u=UserService.login(str,pwd,boo);
 
-        List<Integer> uids=UserService.root();
-
-        if(uids.size()>0||uids!=null)
+        if(u!=null)
         {
+            List<Integer> uids=UserService.root();
             for(int i:uids)
             {
                 if(u.getId()==i)
+                {
                     req.getRequestDispatcher("BSindex.jsp").forward(req, resp);
+                    return;
+                }
             }
         }
         if(u!=null)

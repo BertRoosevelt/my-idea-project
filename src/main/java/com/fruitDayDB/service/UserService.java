@@ -1,12 +1,9 @@
 package com.fruitDayDB.service;
 
-import com.fruitDayDB.dao.ShopDao;
-import com.fruitDayDB.dao.ShopDaoImpl;
 import com.fruitDayDB.dao.UserDao;
 import com.fruitDayDB.dao.UserDaoImpl;
 import com.fruitDayDB.vo.User;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,36 +13,28 @@ public class UserService {
     public static User add(User u){
         UserDao userDao=new UserDaoImpl();
         int num=userDao.add(u);
-        User user=null;
-        if(num==1)
-        {
-            user=UserService.login(u.getEmail(),u.getPwd(),true);
-
-            ShopDao shopDao=new ShopDaoImpl();
-            boolean boo=shopDao.newTable(user.getId());
-
-            if(!boo)
-            {
-                UserService.del(user);
-                return null;
-            }
+        if(num==1) {
+            return UserService.login(u.getEmail(), u.getPwd(), true);
         }
-
-        return  user;
-
+        return null;
     }
 
     public static User login(String str,String pwd,boolean boo)
     {
+        if (str == null || pwd == null) {
+            return null;
+        }
         UserDao userDao=new UserDaoImpl();
         User u=userDao.findByStr(str,boo);
+        if (u == null || u.getPwd() == null) {
+            return null;
+        }
 
         if(pwd.equals(u.getPwd())) {
             u.setPwd("******");
             return u;
         }
-        else
-            return null;
+        return null;
     }
 
     public static boolean del(User user)

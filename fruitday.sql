@@ -68,36 +68,25 @@ INSERT INTO `hotfruits` VALUES ('16');
 INSERT INTO `hotfruits` VALUES ('20');
 
 -- ----------------------------
--- Table structure for shop1
+-- Table structure for shop (unified cart/star table)
 -- ----------------------------
-DROP TABLE IF EXISTS `shop1`;
-CREATE TABLE `shop1` (
+DROP TABLE IF EXISTS `shop`;
+CREATE TABLE `shop` (
+  `uid` int(11) NOT NULL,
   `fid` int(11) NOT NULL,
-  `isStar` tinyint(1) NOT NULL,
-  `isCart` tinyint(1) NOT NULL
+  `isCart` tinyint(1) NOT NULL DEFAULT '0',
+  `isStar` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`,`fid`),
+  KEY `idx_shop_uid` (`uid`),
+  KEY `idx_shop_fid` (`fid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of shop1
+-- Records of shop
 -- ----------------------------
-INSERT INTO `shop1` VALUES ('1', '1', '0');
-INSERT INTO `shop1` VALUES ('11', '1', '0');
-INSERT INTO `shop1` VALUES ('14', '1', '1');
-
--- ----------------------------
--- Table structure for shop12
--- ----------------------------
-DROP TABLE IF EXISTS `shop12`;
-CREATE TABLE `shop12` (
-  `fid` int(255) NOT NULL,
-  `isCart` tinyint(255) DEFAULT NULL,
-  `isStar` tinyint(255) DEFAULT NULL,
-  PRIMARY KEY (`fid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of shop12
--- ----------------------------
+INSERT INTO `shop` VALUES ('1', '1', '0', '1');
+INSERT INTO `shop` VALUES ('1', '11', '0', '1');
+INSERT INTO `shop` VALUES ('1', '14', '1', '1');
 
 -- ----------------------------
 -- Table structure for user
