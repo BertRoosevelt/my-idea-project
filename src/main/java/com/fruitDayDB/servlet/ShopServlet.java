@@ -48,7 +48,7 @@ public class ShopServlet extends HttpServlet{
         if(id!=0) {
             Cart serCart=ShopService.find(id, cart.getFid());
             if (serCart == null) {
-                req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&boob="+("cart".equals(str) ? "cart" : "star")).forward(req, resp);
+                req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&view="+("cart".equals(str) ? "cart" : "star")).forward(req, resp);
                 return;
             }
             if ("cart".equals(str)) {
@@ -68,9 +68,9 @@ public class ShopServlet extends HttpServlet{
             }
         }
         if ("cart".equals(str)) {
-            req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&boob=cart").forward(req, resp);
+            req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&view=cart").forward(req, resp);
         } else {
-            req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&boob=star").forward(req, resp);
+            req.getRequestDispatcher("/ShopServlet?key=show&id="+id+"&view=star").forward(req, resp);
         }
 
     }
@@ -80,23 +80,26 @@ public class ShopServlet extends HttpServlet{
         int id=parseInt(req.getParameter("id"), 0);
 
 
-        String boob=req.getParameter("boob");
+        String viewType=req.getParameter("view");
+        if (viewType == null) {
+            viewType = req.getParameter("boob");
+        }
 
-        Boolean boo;
+        Boolean showCart;
 
-        if("cart".equals(boob))
-            boo=true;
-        else if("star".equals(boob))
-            boo=false;
+        if("cart".equals(viewType))
+            showCart=true;
+        else if("star".equals(viewType))
+            showCart=false;
         else
-            boo=true;
+            showCart=true;
 
         if(id!=0) {
-            List<Fruit> fruits = ShopService.show(id, boo);
+            List<Fruit> fruits = ShopService.show(id, showCart);
 
             req.setAttribute("fruits", fruits);
 
-            if (boo)
+            if (showCart)
                 req.getRequestDispatcher("showcart.jsp").forward(req, resp);
             else
                 req.getRequestDispatcher("showstar.jsp").forward(req, resp);

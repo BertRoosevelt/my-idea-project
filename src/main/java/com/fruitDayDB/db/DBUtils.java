@@ -22,8 +22,11 @@ public class DBUtils {
     static{
         URL = readConfig("DB_URL", "db.url", "jdbc:mysql://127.0.0.1:3306/fruitday?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8");
         USERNAME = readConfig("DB_USERNAME", "db.username", "root");
-        PASSWORD = readConfig("DB_PASSWORD", "db.password", "");
+        PASSWORD = readConfig("DB_PASSWORD", "db.password", null);
         DRIVER = readConfig("DB_DRIVER", "db.driver", "com.mysql.cj.jdbc.Driver");
+        if (PASSWORD == null) {
+            throw new IllegalStateException("Database password is not configured. Please set DB_PASSWORD or JVM system property db.password.");
+        }
         try {
             Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {

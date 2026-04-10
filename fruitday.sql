@@ -72,8 +72,8 @@ INSERT INTO `hotfruits` VALUES ('20');
 -- ----------------------------
 DROP TABLE IF EXISTS `shop`;
 CREATE TABLE `shop` (
-  `uid` int(255) NOT NULL,
-  `fid` int(255) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
   `isCart` tinyint(1) NOT NULL DEFAULT '0',
   `isStar` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`,`fid`),

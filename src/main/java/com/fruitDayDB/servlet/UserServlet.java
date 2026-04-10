@@ -66,10 +66,9 @@ public class UserServlet extends HttpServlet {
 
         User u=UserService.login(str,pwd,boo);
 
-        List<Integer> uids=UserService.root();
-
-        if(u!=null && uids!=null && !uids.isEmpty())
+        if(u!=null)
         {
+            List<Integer> uids=UserService.root();
             for(int i:uids)
             {
                 if(u.getId()==i)
