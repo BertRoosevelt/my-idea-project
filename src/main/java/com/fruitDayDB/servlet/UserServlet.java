@@ -68,11 +68,14 @@ public class UserServlet extends HttpServlet {
 
         if(u!=null)
         {
+            HttpSession session=req.getSession();
+            session.setAttribute("user",u);
             List<Integer> uids=UserService.root();
             for(int i:uids)
             {
                 if(u.getId()==i)
                 {
+                    session.setAttribute("admin", true);
                     req.getRequestDispatcher("BSindex.jsp").forward(req, resp);
                     return;
                 }
@@ -82,6 +85,7 @@ public class UserServlet extends HttpServlet {
         {
             HttpSession session=req.getSession();
             session.setAttribute("user",u);
+            session.setAttribute("admin", false);
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
         else

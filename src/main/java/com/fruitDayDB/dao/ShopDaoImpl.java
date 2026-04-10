@@ -2,6 +2,7 @@ package com.fruitDayDB.dao;
 
 import com.fruitDayDB.db.DBUtils;
 import com.fruitDayDB.vo.Cart;
+import com.fruitDayDB.vo.ShopRecord;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -127,5 +128,31 @@ public class ShopDaoImpl implements ShopDao {
             DBUtils.close(null, ps, conn);
             return num;
         }
+    }
+
+    public List<ShopRecord> findAllRecords() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<ShopRecord> records = new ArrayList<ShopRecord>();
+        String sql = "SELECT uid,fid,isCart,isStar FROM shop ORDER BY uid,fid";
+        try{
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                ShopRecord record = new ShopRecord();
+                record.setUid(rs.getInt("uid"));
+                record.setFid(rs.getInt("fid"));
+                record.setCart(rs.getBoolean("isCart"));
+                record.setStar(rs.getBoolean("isStar"));
+                records.add(record);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            DBUtils.close(rs, ps, conn);
+        }
+        return records;
     }
 }
